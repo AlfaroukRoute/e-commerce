@@ -1,0 +1,54 @@
+
+ <owl-carousel-o [options]="customOptions">
+
+    @for (category of categories; track category._id) {
+      <ng-template carouselSlide [id]="category._id">
+       <div class="">
+         <img class="h-40 object-cover object-top" [src]="category.image" [alt]="category.name" [title]="category.name">
+         <p>{{ category.name }}</p>
+       </div>
+
+      </ng-template>
+    }
+
+  </owl-carousel-o>
+
+
+<div class="grid  gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
+
+
+    <!-- !!! isLoading -->
+     @if(isLoading){
+      
+         @for (item of [0, 0 , 0 , 0 ,0 , 0 ,0 , 0 ,0]; track $index) {
+              <div class="mt-3 ">
+             <div class="h-60 bg-gray-500 animate-pulse rounded"></div>
+             <div class="h-4 w-20 bg-gray-500 animate-pulse rounded mt-3"></div>
+             <div class="h-4 w-32 bg-gray-500 animate-pulse rounded mt-3"></div>
+             <div class="h-4 w-full bg-gray-500 animate-pulse rounded mt-3"></div>
+          </div>
+     
+         }
+     }
+
+     @if(errMsg) {
+        <div class="mt-3 text-red-500">
+          {{ errMsg }}
+        </div>
+     }
+
+
+    @for (product of products; track $index) {
+
+        <app-product-card [product]="product"> </app-product-card>
+    }
+
+  
+
+  
+</div>
+
+
+<form action=""></form>
+
+<!-- <div class="layer"></div> -->

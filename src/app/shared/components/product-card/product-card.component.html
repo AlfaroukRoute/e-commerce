@@ -1,0 +1,13 @@
+<div [routerLink]="['/product-details' , product._id  , product.slug]" class="w-full relative group pb-7 cursor-pointer">
+    <img class="h-72 w-full object-contain" [src]="product.imageCover" [alt]="product.slug">
+    <span class="text-main text-sm">{{product.category?.name}}</span>
+    <h2 [title]="product.title" class="font-normall truncate mb-2">{{product.title + ' ' + product._id }}</h2>
+
+    <div class="flex justify-between items-center text-black/80">
+        <span>{{product.price}}EGP</span>
+        <span> <i class="fa fa-star text-yellow-400"></i>  <span class="text-sm">{{product.ratingsAverage}}</span></span>
+    </div>
+
+
+    <button class="bg-main cursor-pointer active:scale-95  text-white w-full start-0 end-0 mx-auto rounded py-1.5 absolute opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-5 group-hover:translate-y-0"> Add To Cart </button>
+</div>

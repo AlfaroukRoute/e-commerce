@@ -1,0 +1,46 @@
+<div class="grid py-12  gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
+
+
+    <!-- !!! isLoading -->
+    @if(isLoading){
+
+    @for (item of [0, 0 , 0 , 0 ,0 , 0 ,0 , 0 ,0]; track $index) {
+    <div class="mt-3 ">
+        <div class="h-60 bg-gray-500 animate-pulse rounded"></div>
+        <div class="h-4 w-20 bg-gray-500 animate-pulse rounded mt-3"></div>
+        <div class="h-4 w-32 bg-gray-500 animate-pulse rounded mt-3"></div>
+        <div class="h-4 w-full bg-gray-500 animate-pulse rounded mt-3"></div>
+    </div>
+
+    }
+    }
+
+    @if(errMsg) {
+    <div class="mt-3 text-red-500">
+        {{ errMsg }}
+    </div>
+    }
+
+
+    @for (product of products | paginate: { id: 'productPagination',
+    itemsPerPage: pageSize,
+    currentPage: currentPage,
+    totalItems: totalItems }; track $index) {
+
+    <app-product-card [product]="product"> </app-product-card>
+    }
+
+
+    
+
+
+
+</div>
+
+
+<div class="flex justify-center">
+        <pagination-controls class="my-pagination" [directionLinks]="false" [autoHide]="true" previousLabel="prev" nextLabel="next" id="productPagination" (pageChange)="pageChanged($event)">
+        </pagination-controls>
+    </div>
+
+<!-- <div class="layer"></div> -->

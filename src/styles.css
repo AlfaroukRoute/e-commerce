@@ -1,1 +1,20 @@
-/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+@import "flowbite/src/themes/default";
+@plugin "flowbite/plugin";
+@source "../node_modules/flowbite";
+
+@theme {
+    --breakpoint-desktop : 1000px;
+    --color-main: #39bb39;
+ 
+}
+
+@layer components {
+    .active {
+        @apply !text-green-500 !font-extrabold ;
+    }
+}
+
+.ngx-pagination .current {
+    background: #059669 !important;
+  }
