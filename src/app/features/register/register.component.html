@@ -77,7 +77,7 @@
 
 
         <div class="relative z-0 w-full mb-5 group">
-            <input formControlName="password" type="text" [name]="'floating_' + 'password'"
+            <input formControlName="password" type="password" [name]="'floating_' + 'password'"
                 [id]="'floating_' + 'password'"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600 peer"
                 placeholder=" " />
@@ -106,7 +106,7 @@
 
 
         <div class="relative z-0 w-full mb-5 group">
-            <input formControlName="rePassword" type="text" [name]="'floating_' + 'rePassword'"
+            <input formControlName="rePassword" type="password" [name]="'floating_' + 'rePassword'"
                 [id]="'floating_' + 'rePassword'"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600 peer"
                 placeholder=" " />
@@ -115,16 +115,16 @@
                 <span class="capitalize">rePassword</span> : </label>
         </div>
 
-         @if(rePasswordController?.touched && rePasswordController?.errors) {
+         @if(rePasswordController?.touched && (rePasswordController?.errors || registerForm.getError('noMatch'))) {
         <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400">
             @if(rePasswordController?.getError('required') ) {
 
             <p>password is required</p>
 
             }
-            @if(rePasswordController?.getError('pattern') ) {
+            @if(registerForm.getError('noMatch') ) {
 
-            <p>password must be at least 6 characters long and start with an uppercase letter</p>
+            <p>passwords do not match </p>
 
             }
         </div>
@@ -159,8 +159,15 @@
 
 
 
-        <button  type="submit"
-            class="text-white disabled:opacity-50 bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Submit</button>
+        <button [disabled]="isLoading"  type="submit"
+            class="text-white disabled:opacity-50 bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+        
+        @if(isLoading){
+            loading...
+        }@else {
+            Submit
+        }
+        </button>
     </form>
 
 

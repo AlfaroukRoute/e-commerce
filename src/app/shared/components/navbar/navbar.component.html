@@ -14,7 +14,8 @@
             </svg>
         </button>
         <div class="hidden grow ms-3 w-full desktop:flex justify-between desktop:w-auto" id="navbar-default">
-            <ul
+           @if(isLogin){
+             <ul
                 class="font-medium flex flex-col p-4 desktop:p-0 mt-4 border border-gray-100 rounded-lg  desktop:flex-row desktop:space-x-8 rtl:space-x-reverse desktop:mt-0 desktop:border-0  dark:bg-gray-800 desktop:dark:bg-gray-900 dark:border-gray-700">
                 @for (item of pages; track $index) {
                 <li>
@@ -24,8 +25,9 @@
                 }
 
             </ul>
+           }
             <ul
-                class="font-medium flex flex-col p-4 desktop:p-0 mt-4 border border-gray-100 rounded-lg  desktop:flex-row desktop:space-x-8 rtl:space-x-reverse desktop:mt-0 desktop:border-0  dark:bg-gray-800 desktop:dark:bg-gray-900 dark:border-gray-700">
+                class="ml-auto font-medium flex flex-col p-4 desktop:p-0 mt-4 border border-gray-100 rounded-lg  desktop:flex-row desktop:space-x-8 rtl:space-x-reverse desktop:mt-0 desktop:border-0  dark:bg-gray-800 desktop:dark:bg-gray-900 dark:border-gray-700">
 
 
 
@@ -45,17 +47,21 @@
                 </li>
 
 
-                @for (item of authPages; track $index) {
+             @if (!isLogin) {
+                   @for (item of authPages; track $index) {
                 <li>
                     <a [routerLink]="item.path" routerLinkActive="active"
                         class="block py-2 px-3 text-gray-500 font-normal  rounded-sm   desktop:p-0 d ">{{ item.title }}</a>
                 </li>
                 }
+             }
 
-                <span class="cursor-pointer  text-gray-500  font-normal">
+              @if(isLogin) {
+                  <span (click)="logOut()" class="cursor-pointer  text-gray-500  font-normal">
                     logOut
                 </span>
 
+              }
             </ul>
         </div>
     </div>

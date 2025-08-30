@@ -4,6 +4,7 @@ import { FlowbiteService } from '../../../core/services/flowbite.service';
 import { initFlowbite } from 'flowbite';
 import { ProductService } from '../../../core/services/product.service';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -12,8 +13,8 @@ import { CommonModule } from '@angular/common';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-  productService = inject(ProductService);
 
+  isLogin = false;
   pages = [
     { title: 'Home', path: '/home' },
     { title: 'Products', path: '/products' },
@@ -28,12 +29,28 @@ export class NavbarComponent {
   ]
 
 
-  constructor(private flowbiteService: FlowbiteService) {}
+  constructor(private flowbiteService: FlowbiteService , private authSService: AuthService) {}
 
   ngOnInit(): void {
     this.flowbiteService.loadFlowbite((flowbite) => {
       initFlowbite();
     });
+
+
+    this.authSService.userDate.subscribe({
+      next : (user)=>{
+        console.log(user , "navbar");
+        if( user != null) {
+          this.isLogin = true;
+        }else {
+          this.isLogin = false;
+        }
+      }
+    })
   }
 
+
+  logOut(){
+    this.authSService.logOut();
+  }
 }
