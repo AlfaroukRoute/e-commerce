@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService, UserData, UserDataLogin } from '../../core/services/auth.service';
@@ -12,6 +12,11 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
 isLoading = false;
+authService = inject(AuthService)
+toastr = inject(ToastrService)
+router = inject(Router)
+
+
 
   loginForm: FormGroup = new FormGroup(
     {
@@ -26,7 +31,6 @@ isLoading = false;
   
   );
 
-  constructor(private authService: AuthService , private toastr: ToastrService , private router: Router) {}
 
   login(value: UserDataLogin) {
     this.isLoading = true;

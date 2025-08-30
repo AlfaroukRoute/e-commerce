@@ -6,7 +6,7 @@ import { jwtDecode } from 'jwt-decode';
 import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 
-type decodedUser = {id: string , name : string , role : string}
+type decodedUser = { id: string; name: string; role: string };
 
 export interface UserData {
   name: string;
@@ -24,20 +24,21 @@ export interface UserDataLogin {
   providedIn: 'root',
 })
 export class AuthService {
-
-
-  
+  // !!!! {} login , null logout
   userDate: BehaviorSubject<any> = new BehaviorSubject(null);
+  isLogin: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  // userDate.next(null);
-  // userDate.getValue();
-  // useDate.subscribe({next})
-
-  constructor(private http: HttpClient , @Inject(PLATFORM_ID) private platformId: any , private router : Router) {
-
+  // !!!
+  constructor(
+    private http: HttpClient,
+    @Inject(PLATFORM_ID) private platformId: any,
+    private router: Router
+  ) {
     // !!! once
+
     if (isPlatformBrowser(this.platformId)) {
       const token = localStorage.getItem('token');
+
       if (token) {
         this.decodedToken(token);
       }
@@ -57,21 +58,57 @@ export class AuthService {
     );
   }
 
-  // !!!
+  // ! forgetPass email {email : ""}
+  forgetPassword(email: string): Observable<{
+    statusMsg: 'success' | 'fail';
+    message: string;
+  }> {
+    return this.http.post<{
+      statusMsg: 'success' | 'fail';
+      message: string;
+    }>(`https://ecommerce.routemisr.com/api/v1/auth/forgotPasswords`, {
+      email,
+    });
+  }
+
+  //! verify code (code)
+  verifyCode(code: string): Observable<{
+    status?: 'Success' | 'fail';
+    statusMsg?: 'success' | 'fail';
+  }> {
+    return this.http.post<{
+      status?: 'Success' | 'fail';
+      statusMsg?: 'success' | 'fail';
+    }>(`https://ecommerce.routemisr.com/api/v1/auth/verifyResetCode`, {
+      resetCode: code,
+    });
+  }
+
+  //! reset password (email , newPassword)
+
+  resetPassword(email: string, newPassword: string): Observable<any> {
+    return this.http.put(
+      `https://ecommerce.routemisr.com/api/v1/auth/resetPassword`,
+      {
+        email,
+        newPassword,
+      }
+    );
+  }
+
+  // !!! login register ||| reload fe token
   decodedToken(token: string) {
     const decoded = jwtDecode(token);
     this.userDate.next(decoded);
-
-    return decoded;
+    this.isLogin.next(true);
   }
 
-  logOut(){
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.removeItem('token');
-      this.userDate.next(null);
-
-
-      this.router.navigate(['/login']);
-    }
+  //! false logout
+  //! 403 catch logout
+  logOut() {
+    localStorage.removeItem('token');
+    this.userDate.next(null);
+    this.isLogin.next(false);
+    this.router.navigate(['/login']);
   }
 }

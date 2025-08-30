@@ -1,10 +1,14 @@
 <div [routerLink]="['/product-details' , product._id  , product.slug]" class="w-full relative group pb-7 cursor-pointer">
+    {{ today | date : "shortDate" }}
     <img class="h-72 w-full object-contain" [src]="product.imageCover" [alt]="product.slug">
-    <span class="text-main text-sm">{{product.category?.name}}</span>
-    <h2 [title]="product.title" class="font-normall truncate mb-2">{{product.title + ' ' + product._id }}</h2>
+    <span class="text-main text-sm">{{(product.category?.name || '') | test}}</span>
+    <h2 [title]="product.title" class="font-normall truncate mb-2 bg-red-400 py-10">{{product.title }}</h2>
+
+
+    <p>{{product.description | seeMore : 3}}</p>
 
     <div class="flex justify-between items-center text-black/80">
-        <span>{{product.price}}EGP</span>
+        <span>{{product.price | currency : "USD" }}</span>
         <span> <i class="fa fa-star text-yellow-400"></i>  <span class="text-sm">{{product.ratingsAverage}}</span></span>
     </div>
 

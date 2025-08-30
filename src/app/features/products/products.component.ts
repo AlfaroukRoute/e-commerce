@@ -3,15 +3,21 @@ import { ProductService } from '../../core/services/product.service';
 import { Product } from '../../core/models/data.interface';
 import { ProductCardComponent } from "../../shared/components/product-card/product-card.component";
 import {NgxPaginationModule} from 'ngx-pagination'; // <-- import the module
+import { UpperCasePipe } from '@angular/common';
+import { FilterListPipe } from '../../shared/pipes/filter-list-pipe';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-products',
-  imports: [ProductCardComponent , NgxPaginationModule]  ,
+  imports: [FormsModule, ProductCardComponent , FilterListPipe , NgxPaginationModule , UpperCasePipe]  ,
   templateUrl: './products.component.html',
   styleUrl: './products.component.css'
 })
 export class ProductsComponent {
   products: Product[] = [];
+  term :string ='';
+
+
   isLoading = false;
   errMsg = "" ;
 

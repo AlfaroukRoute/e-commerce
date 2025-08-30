@@ -20,7 +20,7 @@ export class ProductService {
 
     // !!! todo create product interface
     getProducts(page : number = 1) : Observable<Response<Product>> {
-      return  this.http.get<Response<Product>>(`https://ecommerce.routemisr.com/api/v1/products?limit=10&page=${page}`)
+      return  this.http.get<Response<Product>>(`https://ecommerce.routemisr.com/api/v1/products?limit=40&page=${page}`)
 
     }
 
