@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { Product, Response } from "../models/data.interface";
+import { environment } from "../../../environments/environment.development";
 
 // !! product details 
 // !! login , register 
@@ -20,14 +21,14 @@ export class ProductService {
 
     // !!! todo create product interface
     getProducts(page : number = 1) : Observable<Response<Product>> {
-      return  this.http.get<Response<Product>>(`https://ecommerce.routemisr.com/api/v1/products?limit=40&page=${page}`)
+      return  this.http.get<Response<Product>>(`${environment.baseUrl}/products?limit=40&page=${page}`)
 
     }
 
     // !!!
     getSpecificProduct(id: string): Observable<{data: Product}> {
-      return this.http.get<{data : Product}>(`https://ecommerce.routemisr.com/api/v1/products/${id}`)
-     
+      return this.http.get<{data : Product}>(`${environment.baseUrl}/products/${id}`)
+
     }
 
  

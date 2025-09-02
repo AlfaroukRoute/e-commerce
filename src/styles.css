@@ -4,17 +4,24 @@
 @source "../node_modules/flowbite";
 
 @theme {
-    --breakpoint-desktop : 1000px;
-    --color-main: #39bb39;
- 
+  --breakpoint-desktop: 1000px;
+  --color-main: #39bb39;
 }
 
 @layer components {
-    .active {
-        @apply !text-green-500 !font-extrabold ;
-    }
+  .active {
+    @apply !text-green-500 !font-extrabold;
+  }
 }
 
 .ngx-pagination .current {
-    background: #059669 !important;
-  }
+  background: #059669 !important;
+}
+
+:root {
+  --hue: 223;
+  /* 	--bg: red; */
+  --fg: green;
+  --primary: green;
+  --trans-dur: 0.3s;
+}

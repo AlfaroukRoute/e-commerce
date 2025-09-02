@@ -4,6 +4,8 @@ import { RouterLink } from "@angular/router";
 import { CurrencyPipe, DatePipe, LowerCasePipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { TestPipe } from '../../pipes/test-pipe';
 import { SeeMorePipe } from '../../pipes/see-more-pipe';
+import { CartService } from '../../../core/services/cart.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-product-card',
@@ -17,7 +19,26 @@ export class ProductCardComponent {
 
   // !! service || home || product
   @Input({required : true})
-  product: Product = {} as Product; ;
+  product: Product = {} as Product; 
+
+   constructor(
+     
+      private cartService: CartService,
+      private toaster: ToastrService
+    ) {}
+  
+
+
+   addProductCart(pID: string) {
+    this.cartService.addProductToCart(pID).subscribe({
+      next: (res) => {
+        this.toaster.success(res.message);
+      },
+      error: (err) => {
+        this.toaster.error(err.message);
+      },
+    });
+  }
 
 
 

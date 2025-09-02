@@ -5,6 +5,10 @@ import { Product, Response } from '../models/data.interface';
 import { jwtDecode } from 'jwt-decode';
 import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment.development';
+
+
+
 
 type decodedUser = { id: string; name: string; role: string };
 
@@ -47,13 +51,13 @@ export class AuthService {
 
   register(data: UserData): Observable<any> {
     return this.http.post(
-      'https://ecommerce.routemisr.com/api/v1/auth/signup',
+      `${environment.baseUrl}/auth/signup`,
       data
     );
   }
   login(data: UserDataLogin): Observable<any> {
     return this.http.post(
-      'https://ecommerce.routemisr.com/api/v1/auth/signin',
+      `${environment.baseUrl}/auth/signin`,
       data
     );
   }
@@ -66,7 +70,7 @@ export class AuthService {
     return this.http.post<{
       statusMsg: 'success' | 'fail';
       message: string;
-    }>(`https://ecommerce.routemisr.com/api/v1/auth/forgotPasswords`, {
+    }>(`${environment.baseUrl}/auth/forgotPasswords`, {
       email,
     });
   }
@@ -79,7 +83,7 @@ export class AuthService {
     return this.http.post<{
       status?: 'Success' | 'fail';
       statusMsg?: 'success' | 'fail';
-    }>(`https://ecommerce.routemisr.com/api/v1/auth/verifyResetCode`, {
+    }>(`/auth/verifyResetCode`, {
       resetCode: code,
     });
   }
@@ -88,7 +92,7 @@ export class AuthService {
 
   resetPassword(email: string, newPassword: string): Observable<any> {
     return this.http.put(
-      `https://ecommerce.routemisr.com/api/v1/auth/resetPassword`,
+      `${environment.baseUrl}/auth/resetPassword`,
       {
         email,
         newPassword,
