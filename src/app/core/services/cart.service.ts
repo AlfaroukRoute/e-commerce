@@ -17,11 +17,11 @@ export class CartService {
     return this.http.post(
       `${environment.baseUrl}/cart`,
       { productId },
-      {
-        headers: {
-          token: localStorage?.getItem('token') || '',
-        },
-      }
+      // {
+      //   headers: {
+      //     token: localStorage?.getItem('token') || '',
+      //   },
+      // }
     );
   }
 
@@ -32,38 +32,39 @@ export class CartService {
     return this.http.put<CartResponse>(
       `${environment.baseUrl}/cart/${productId}`,
       { count },
-      {
-        headers: {
-          token: localStorage?.getItem('token') || '',
-        },
-      }
+      // {
+      //   headers: {
+      //     token: localStorage?.getItem('token') || '',
+      //   },
+      // }
     );
   }
 
   deleteSpecificProduct(productId: string): Observable<CartResponse> {
     return this.http.delete<CartResponse>(
       `${environment.baseUrl}/cart/${productId}`,
-      {
-        headers: {
-          token: localStorage?.getItem('token') || '',
-        },
-      }
+      // {
+      //   headers: {
+      //     token: localStorage?.getItem('token') || '',
+      //   },
+      // }
     );
   }
 
   deleteCart(): Observable<any> {
-    return this.http.delete(`${environment.baseUrl}/cart`, {
-      headers: {
-        token: localStorage?.getItem('token') || '',
-      },
+    return this.http.delete(`${environment.baseUrl}/cart`, 
+      {
+      // headers: {
+      //   token: localStorage?.getItem('token') || '',
+      // },
     });
   }
 
   getUserCart(): Observable<CartResponse> {
     return this.http.get<CartResponse>(`${environment.baseUrl}/cart`, {
-      headers: {
-        token: localStorage?.getItem('token') || '',
-      },
+      // headers: {
+      //   token: localStorage?.getItem('token') || '',
+      // },
     });
   }
 

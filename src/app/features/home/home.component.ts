@@ -6,6 +6,7 @@ import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { CategoryService } from '../../core/services/category.service';
 import { CartService } from '../../core/services/cart.service';
 import { ToastrService } from 'ngx-toastr';
+import { LoaderService } from '../../core/services/loader.service';
 
 @Component({
   selector: 'app-home',
@@ -24,8 +25,11 @@ export class HomeComponent {
     private productService: ProductService,
     private categoryService: CategoryService,
     private cartService: CartService,
-    private toaster: ToastrService
-  ) {}
+    private toaster: ToastrService,
+    private loader: LoaderService,
+  ) {
+    // loader.show()
+  }
 
   // !!!!
   ngOnInit(): void {

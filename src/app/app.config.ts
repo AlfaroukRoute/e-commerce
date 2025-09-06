@@ -10,13 +10,22 @@ import {
   provideClientHydration,
   withEventReplay,
 } from '@angular/platform-browser';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
+import { headerInterceptor } from './core/interceptors/header-interceptor';
+import { loaderInterceptor } from './core/interceptors/loader-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideHttpClient(withFetch()),
+    // !! httpClient.get
+    provideHttpClient(withFetch() , withInterceptors([headerInterceptor , loaderInterceptor])),
+
+
+
+
+
+
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),

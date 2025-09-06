@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { inject, Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Product, Response } from '../models/data.interface';
 import { jwtDecode } from 'jwt-decode';
 import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment.development';
+import { CookieService } from 'ngx-cookie-service';
 
 
 
@@ -29,6 +30,7 @@ export interface UserDataLogin {
 })
 export class AuthService {
   // !!!! {} login , null logout
+  cookies = inject(CookieService);
   userDate: BehaviorSubject<any> = new BehaviorSubject(null);
   isLogin: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
@@ -41,7 +43,7 @@ export class AuthService {
     // !!! once
 
     if (isPlatformBrowser(this.platformId)) {
-      const token = localStorage.getItem('token');
+      const token = this.cookies.get('token');
 
       if (token) {
         this.decodedToken(token);
@@ -104,13 +106,16 @@ export class AuthService {
   decodedToken(token: string) {
     const decoded = jwtDecode(token);
     this.userDate.next(decoded);
+    console.log({data :this.userDate});
+    
     this.isLogin.next(true);
   }
 
   //! false logout
   //! 403 catch logout
   logOut() {
-    localStorage.removeItem('token');
+    // localStorage.removeItem('token');
+    this.cookies.delete('token');
     this.userDate.next(null);
     this.isLogin.next(false);
     this.router.navigate(['/login']);

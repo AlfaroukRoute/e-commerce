@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 
 import {
@@ -11,6 +11,7 @@ import {
 } from '@angular/forms';
 import { AuthService, UserData } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 @Component({
   selector: 'app-register',
   imports: [ReactiveFormsModule],
@@ -18,6 +19,7 @@ import { Router } from '@angular/router';
   styleUrl: './register.component.css',
 })
 export class RegisterComponent {
+  cookies = inject(CookieService);
   // !!! reactive forms (FormGroup , FormControl , formArray , Validators , formBuilder , formControlName) ==> ReactiveFormsModule
   //! form in ts
   //! form UI
@@ -49,7 +51,11 @@ export class RegisterComponent {
     { validators: this.matchPasswordValidation }
   );
 
-  constructor(private authService: AuthService , private toastr: ToastrService , private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private toastr: ToastrService,
+    private router: Router
+  ) {}
 
   register(value: UserData) {
     this.isLoading = true;
@@ -58,17 +64,18 @@ export class RegisterComponent {
         this.isLoading = false;
         console.log('Registration successful:', response);
         // !!!!!! token
-        localStorage.setItem('token', response.token);
+        this.cookies.set('token', response.token);
+
         this.authService.decodedToken(response.token);
-        this.toastr.success("Registration successful" , "Success" ) 
+        this.toastr.success('Registration successful', 'Success');
         // !!! /home
         this.router.navigate(['/home']);
       },
       error: (error) => {
         this.isLoading = false;
         console.error('Registration failed:', error);
-        if(error?.error?.message){
-          this.toastr.error(error.error.message , "Error" )
+        if (error?.error?.message) {
+          this.toastr.error(error.error.message, 'Error');
         }
       },
     });

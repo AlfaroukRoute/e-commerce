@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService, UserData, UserDataLogin } from '../../core/services/auth.service';
 
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 @Component({
   selector: 'app-login',
   imports: [ReactiveFormsModule],
@@ -14,7 +15,8 @@ export class LoginComponent {
 isLoading = false;
 authService = inject(AuthService)
 toastr = inject(ToastrService)
-router = inject(Router)
+router = inject(Router);
+cookies = inject(CookieService);
 
 
 
@@ -39,7 +41,7 @@ router = inject(Router)
         this.isLoading = false;
         console.log('login successful:', response);
         // !!!!!! token
-        localStorage.setItem('token', response.token);
+        this.cookies.set('token', response.token);
         this.authService.decodedToken(response.token);
 
         this.toastr.success("login successful" , "Success" ) 
