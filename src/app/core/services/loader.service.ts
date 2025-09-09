@@ -1,5 +1,6 @@
-import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable } from "rxjs";
+import { Injectable, signal, WritableSignal } from "@angular/core";
+import { Sign } from "crypto";
+import { BehaviorSubject, Observable, single } from "rxjs";
 
 //! userData token ==> userData
 // !! BehaviorSubject  
@@ -8,15 +9,16 @@ import { BehaviorSubject, Observable } from "rxjs";
   providedIn: 'root'
 })
 export class LoaderService {
-    isLoading: BehaviorSubject<boolean> = new BehaviorSubject(false);
+    // !!
+    isLoading : WritableSignal<boolean> = signal(false); ;
 
     show() {
-        this.isLoading.next(true);
+        this.isLoading.set(true);
     }
 
     hide() {
-        this.isLoading.next(false);
-    
+        this.isLoading.set(false);
+
     }
 
 }

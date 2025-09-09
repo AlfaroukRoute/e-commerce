@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { inject, Inject, Injectable, PLATFORM_ID, REQUEST } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Product, Response } from '../models/data.interface';
 import { jwtDecode } from 'jwt-decode';
@@ -8,6 +8,24 @@ import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment.development';
 import { CookieService } from 'ngx-cookie-service';
 
+
+
+
+function getCookie( cookie : string,cname: string) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
 
 
 
@@ -31,6 +49,7 @@ export interface UserDataLogin {
 export class AuthService {
   // !!!! {} login , null logout
   cookies = inject(CookieService);
+  req = inject(REQUEST);
   userDate: BehaviorSubject<any> = new BehaviorSubject(null);
   isLogin: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
@@ -40,15 +59,35 @@ export class AuthService {
     @Inject(PLATFORM_ID) private platformId: any,
     private router: Router
   ) {
+
+    console.log({req: this.req});
+    
     // !!! once
 
+    // !!!!
     if (isPlatformBrowser(this.platformId)) {
-      const token = this.cookies.get('token');
 
+      // const token = localStorage.getItem('token');
+      const token = this.cookies.get('token');
       if (token) {
         this.decodedToken(token);
       }
+    }else {
+      // !!!! local ==> cookies 
+            // const token = this.cookies.get('token');
+
+      // console.log(this.isLogin.getValue() , token);
+
+     const cookies = this.req?.headers.get("cookie");
+      const token = getCookie(cookies || "" , "token");
+     console.log({token});
+
+     this.decodedToken(token);
+     
+      
     }
+
+    
   }
 
   register(data: UserData): Observable<any> {

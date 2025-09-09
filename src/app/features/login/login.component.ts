@@ -42,6 +42,7 @@ cookies = inject(CookieService);
         console.log('login successful:', response);
         // !!!!!! token
         this.cookies.set('token', response.token);
+        // localStorage.setItem('token', response.token);
         this.authService.decodedToken(response.token);
 
         this.toastr.success("login successful" , "Success" ) 

@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class SeeMorePipe implements PipeTransform {
 
   transform(value: string, numOfWords : number): string {
-    console.log(value);
+    // console.log(value);
     
     return `${value.split(" ").slice(0, numOfWords).join(" ")} ...see more`;
   }

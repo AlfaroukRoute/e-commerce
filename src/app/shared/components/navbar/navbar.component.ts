@@ -39,7 +39,7 @@ export class NavbarComponent {
 
     this.authSService.userDate.subscribe({
       next : (user)=>{
-        console.log(user , "navbar");
+        // console.log(user , "navbar");
         if( user != null) {
           this.isLogin = true;
         }else {

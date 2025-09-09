@@ -2,6 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject, PLATFORM_ID } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
+import { catchError, throwError } from 'rxjs';
 
 export const headerInterceptor: HttpInterceptorFn = (req, next) => {
   const cookies = inject(CookieService);
@@ -15,5 +16,13 @@ export const headerInterceptor: HttpInterceptorFn = (req, next) => {
     });
   }
 
-  return next(req);
+  return next(req)
+  .pipe(
+    catchError((err)=>{
+      console.log(err , "err from interceptor");
+      return throwError(()=> "server error")
+    })
+  )
+  
+  ;
 };

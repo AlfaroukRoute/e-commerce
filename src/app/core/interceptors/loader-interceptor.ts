@@ -11,7 +11,7 @@ import { catchError, filter, map, mergeMap, retry, throwError , finalize } from 
 
 export const loaderInterceptor: HttpInterceptorFn = (req, next) => {
   const loader = inject(LoaderService);
-  console.log("start loader");
+  // console.log("start loader");
   
   loader.show();
 
